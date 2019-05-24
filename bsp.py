@@ -30,9 +30,9 @@ fc = 4000
 fs = 20 * fc # 采样频率
 ts = np.arange(0, 100*(size) / fs, 1 / fs)
 coherent_carrier = np.cos(np.dot(2 * pi * fc, ts))
-# bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1) + pi / 4)
+bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1) + pi / 4)
 # bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1))
-bpsk = np.cos(np.dot(2 * pi * fc, ts))
+# bpsk = np.cos(np.dot(2 * pi * fc, ts))
 # BPSK调制信号波形
 ax2 = fig.add_subplot(3, 1, 2)
 ax2.set_title('BPSK调制信号', fontproperties=zhfont1, fontsize=20)
@@ -64,12 +64,14 @@ plt.plot(t, noise_bpsk, 'r')
  
 # 通过带通滤波器滤除带外噪声
 bandpass_out = signal.filtfilt(b11, a11, noise_bpsk)
+bandpass_out = noise_bpsk
  
 # 相干解调,乘以同频同相的相干载波
 coherent_demod = bandpass_out * (coherent_carrier * 2)
  
 # 通过低通滤波器
 lowpass_out = signal.filtfilt(b12, a12, coherent_demod)
+lowpass_out = coherent_demod
 fig2 = plt.figure(figsize=(16,8))
 bx1 = fig2.add_subplot(3, 1, 1)
 bx1.set_title('本地载波下变频，经低通滤波器后', fontproperties = zhfont1, fontsize=20)
