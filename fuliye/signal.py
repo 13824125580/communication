@@ -20,15 +20,16 @@ Y=np.fft.fft(y)*2/N
 absY=[np.abs(x) for x in Y]
 # print(t.shape)
 # print(N.shape)
-# print(len(Y))
-# print(len(y))
-print(y)
-m = 0
-i = 0
-while i < len(y):
-    m = m +y[i]
-    i+=1
-print(m)
+print(len(y))
+print(len(Y))
+print(N)
+# print(y)
+# m = 0
+# i = 0
+# while i < len(y):
+    # m = m +y[i]
+    # i+=1
+# print(m)
 
 # print(N)
 # print(df)
