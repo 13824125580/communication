@@ -10,12 +10,14 @@ import math
 size = 10
 sampling_t = 0.01
 t = np.arange(0, size, sampling_t)
- 
+
+print(t)
 # 随机生成信号序列
 a = np.random.randint(0, 2, size)
 for i in range(size):
    a[i] = i % 2
 
+print(a)
 m = np.zeros(len(t), dtype=np.float32)
 for i in range(len(t)):
    m[i] = a[math.floor(t[i])]
@@ -37,7 +39,8 @@ print(ts)
 d=np.dot(2 * pi * fc, ts)
 print(d)
 coherent_carrier = np.cos(d)
-bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1) + pi / 4)
+# bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1) + pi / 4)
+bpsk = np.cos(d + pi * (m - 1))
 # bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1))
 # bpsk = np.cos(np.dot(2 * pi * fc, ts))
 # BPSK调制信号波形
@@ -78,7 +81,8 @@ bandpass_out = signal.filtfilt(b11, a11, noise_bpsk)
 # bandpass_out = noise_bpsk
  
 # 相干解调,乘以同频同相的相干载波
-coherent_demod = bandpass_out * (coherent_carrier * 2)
+# coherent_demod = bandpass_out * (coherent_carrier * 2)
+coherent_demod = bandpass_out * (coherent_carrier * 1)
  
 # 通过低通滤波器
 lowpass_out = signal.filtfilt(b12, a12, coherent_demod)
