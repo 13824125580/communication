@@ -21,7 +21,8 @@ print(a)
 m = np.zeros(len(t), dtype=np.float32)
 for i in range(len(t)):
    m[i] = a[math.floor(t[i])]
- 
+
+print(m)
 fig = plt.figure(figsize=(16,8))
 ax1 = fig.add_subplot(4, 1, 1)
  
