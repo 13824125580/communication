@@ -27,7 +27,7 @@ fig = plt.figure(figsize=(16,8))
 ax1 = fig.add_subplot(4, 1, 1)
  
 # 解决set_title中文乱码
-zhfont1 = matplotlib.font_manager.FontProperties(fname = '/usr/share/fonts/truetype/noto/NotoMono-Regular.ttf')
+zhfont1 = matplotlib.font_manager.FontProperties(fname = '/usr/share/fonts/truetype/arphic/ukai.ttc')
 ax1.set_title('genernate random binary signal', fontproperties = zhfont1, fontsize = 20)
 plt.axis([0, size, -0.5, 1.5])
 plt.plot(t, m, 'b')
@@ -121,6 +121,7 @@ plt.axis([0, size, -0.5, 1.5])
 plt.plot(t, detection_bpsk, 'r')
 
 fft_size = 512 + 256 +128
+fft_size = 1000
 xs = noise_bpsk[:fft_size]
 xs = coherent_demod[:fft_size]
 # xs = coherent_carrier[:fft_size]
