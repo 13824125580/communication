@@ -25,7 +25,7 @@ xf2 = xf[range(int(len(y1)/2))]  #取一半区间
 
 #原始波形
 plt.subplot(221)
-plt.plot(x[0:50],y1[0:50])
+plt.plot(x[0:100],y1[0:100])
 plt.title('Original wave')
 #混合波的FFT（双边频率范围）
 plt.subplot(222)
