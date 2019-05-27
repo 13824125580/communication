@@ -7,7 +7,7 @@ import scipy.signal as signal
 import math
  
 #码元数
-size = 10
+size = 100
 sampling_t = 0.01
 t = np.arange(0, size, sampling_t)
 
@@ -121,7 +121,7 @@ plt.axis([0, size, -0.5, 1.5])
 plt.plot(t, detection_bpsk, 'r')
 
 fft_size = 512 + 256 +128
-fft_size = 1000
+fft_size = 10000
 xs = noise_bpsk[:fft_size]
 xs = coherent_demod[:fft_size]
 # xs = coherent_carrier[:fft_size]
