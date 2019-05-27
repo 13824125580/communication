@@ -8,25 +8,24 @@ import seaborn
 x=np.linspace(0,1,1400)
 
 #设置需要采样的信号，频率分量有180，390和600
-y=7*np.sin(2*np.pi*140*x) + 1.5*np.sin(2*np.pi*280*x)+5.1*np.sin(2*np.pi*560*x)
+y=7*np.sin(2*np.pi*154*x) + 1.5*np.sin(2*np.pi*280*x)+5.1*np.sin(2*np.pi*560*x)
 
 y1=y[:100]
-y=y1
-yy=fft(y)                     #快速傅里叶变换
+yy=fft(y1)                    #快速傅里叶变换
 yreal = yy.real               # 获取实数部分
 yimag = yy.imag               # 获取虚数部分
 
-yf=abs(fft(y))                # 取模
-yf1=abs(fft(y))/((len(y)/2))           #归一化处理
-yf2 = yf1[range(int(len(y)/2))]  #由于对称性，只取一半区间
+yf=abs(fft(y1))                # 取模
+yf1=abs(fft(y1))/((len(y1)/2))           #归一化处理
+yf2 = yf1[range(int(len(y1)/2))]  #由于对称性，只取一半区间
 
-xf = np.arange(len(y))        # 频率
+xf = np.arange(len(y1))        # 频率
 xf1 = xf
-xf2 = xf[range(int(len(y)/2))]  #取一半区间
+xf2 = xf[range(int(len(y1)/2))]  #取一半区间
 
 #原始波形
 plt.subplot(221)
-plt.plot(x[0:50],y[0:50])
+plt.plot(x[0:50],y1[0:50])
 plt.title('Original wave')
 #混合波的FFT（双边频率范围）
 plt.subplot(222)
