@@ -1,0 +1,36 @@
+dft.c:12:10: error: variable or field ‘dft’ declared void
+ void dft(x,y,a,b,n,sign)
+          ^
+dft.c:12:10: error: ‘x’ was not declared in this scope
+dft.c:12:12: error: ‘y’ was not declared in this scope
+ void dft(x,y,a,b,n,sign)
+            ^
+dft.c:12:14: error: ‘a’ was not declared in this scope
+ void dft(x,y,a,b,n,sign)
+              ^
+dft.c:12:16: error: ‘b’ was not declared in this scope
+ void dft(x,y,a,b,n,sign)
+                ^
+dft.c:12:18: error: ‘n’ was not declared in this scope
+ void dft(x,y,a,b,n,sign)
+                  ^
+dft.c:12:20: error: ‘sign’ was not declared in this scope
+ void dft(x,y,a,b,n,sign)
+                    ^~~~
+dft.c:14:10: error: storage size of ‘x’ isn’t known
+ double x[],y[],a[],b[];
+          ^
+dft.c:14:14: error: storage size of ‘y’ isn’t known
+ double x[],y[],a[],b[];
+              ^
+dft.c:14:18: error: storage size of ‘a’ isn’t known
+ double x[],y[],a[],b[];
+                  ^
+dft.c:14:22: error: storage size of ‘b’ isn’t known
+ double x[],y[],a[],b[];
+                      ^
+dft.c:15:1: error: expected unqualified-id before ‘{’ token
+ {
+ ^
+cc1plus: fatal error: ./: No such file or directory
+compilation terminated.

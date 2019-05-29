@@ -1,0 +1,6 @@
+t=-1:0.001:1;
+f=1;
+y=cos(2*pi*2*f*t);
+subplot(1,2,1);plot(t,y);
+y=sin(2*pi*2*f*t);
+subplot(1,2,2);plot(t,y);
