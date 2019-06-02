@@ -98,7 +98,7 @@ plt.plot(t, lowpass_out, 'r')
 #抽样判决
 detection_bpsk = np.zeros(len(t), dtype=np.float32)
 flag = np.zeros(size, dtype=np.float32)
- 
+print(detection_bpsk) 
 for i in range(size):
     tempF = 0
     for j in range(100):
