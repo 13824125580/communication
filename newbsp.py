@@ -7,7 +7,7 @@ import scipy.signal as signal
 import math
  
 #码元数
-size = 10
+size = 40
 sampling_t = 0.01
 t = np.arange(0, size, sampling_t)
 
@@ -34,7 +34,7 @@ plt.plot(t, m, 'b')
  
 fc = 1
 fs = 20 * fc # 采样频率
-ts = np.arange(0, 10 / fs, 1 / (100*fs))
+ts = np.arange(0, 40 / fs, 1 / (100*fs))
 print(ts.shape)
 print(ts)
 d=np.dot(2 * pi * fc, ts)
@@ -88,7 +88,7 @@ coherent_demod = bandpass_out * (coherent_carrier * 1)
  
 # 通过低通滤波器
 lowpass_out = signal.filtfilt(b12, a12, coherent_demod)
-lowpass_out = coherent_demod
+# lowpass_out = coherent_demod
 fig2 = plt.figure(figsize=(16,8))
 bx1 = fig2.add_subplot(3, 1, 1)
 bx1.set_title('local down frequency and pass low band filter', fontproperties = zhfont1, fontsize=20)
@@ -123,7 +123,8 @@ plt.axis([0, size, -0.5, 1.5])
 plt.plot(t, detection_bpsk, 'r')
 
 fft_size = 512 + 256 +128
-fft_size = 1000
+fft_size = 2048
+fft_size = 4000
 xs = noise_bpsk[:fft_size]
 xs = coherent_demod[:fft_size]
 # xs = coherent_carrier[:fft_size]
