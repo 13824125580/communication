@@ -21,10 +21,10 @@ print(a)
 m = np.zeros(len(t), dtype=np.float32)
 for i in range(len(t)):
    m[i] = a[math.floor(t[i])]
+   print(m[i])
 
-print(m)
 fig = plt.figure(figsize=(16,8))
-ax1 = fig.add_subplot(4, 1, 1)
+ax1 = fig.add_subplot(5, 1, 1)
  
 # 解决set_title中文乱码
 zhfont1 = matplotlib.font_manager.FontProperties(fname = '/usr/share/fonts/truetype/arphic/ukai.ttc')
@@ -42,10 +42,16 @@ print(d)
 coherent_carrier = np.cos(d)
 # bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1) + pi / 4)
 bpsk = np.cos(d + pi * (m - 1))
+mmmm = (np.cos(2*d +  pi * (m - 1)) +  np.cos(pi*(m-1)))/2
+
+axm = fig.add_subplot(5, 1, 2)
+plt.axis([0, size, -1.5, 1.5])
+plt.plot(t, mmmm, 'b')
+ 
 # bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1))
 # bpsk = np.cos(np.dot(2 * pi * fc, ts))
 # BPSK调制信号波形
-ax2 = fig.add_subplot(4, 1, 2)
+ax2 = fig.add_subplot(5, 1, 3)
 ax2.set_title('BPSK modulation signal', fontproperties=zhfont1, fontsize=20)
 plt.axis([0,size,-1.5, 1.5])
 plt.plot(t, bpsk, 'r')
@@ -62,12 +68,12 @@ noise_bpsk = awgn(bpsk, 5)
 noise_bpsk = bpsk
  
 # BPSK调制信号叠加噪声波形
-ax3 = fig.add_subplot(4, 1, 3)
+ax3 = fig.add_subplot(5, 1, 4)
 ax3.set_title('BPSK modulation add noise', fontproperties = zhfont1, fontsize = 20)
 plt.axis([0, size, -1.5, 1.5])
 plt.plot(t, noise_bpsk, 'r')
 
-ax4 = fig.add_subplot(4, 1, 4)
+ax4 = fig.add_subplot(5, 1, 5)
 ax4.set_title('BPSK carrier', fontproperties = zhfont1, fontsize = 20)
 plt.axis([0,size,-1.5, 1.5])
 plt.plot(t, coherent_carrier, 'r')
@@ -79,16 +85,18 @@ plt.plot(t, coherent_carrier, 'r')
 [b12,a12] = signal.ellip(5, 0.5, 60, (2000 * 2 / 80000), btype = 'lowpass', analog = False, output = 'ba')
  
 # 通过带通滤波器滤除带外噪声
-bandpass_out = signal.filtfilt(b11, a11, noise_bpsk)
-# bandpass_out = noise_bpsk
+# bandpass_out = signal.filtfilt(b11, a11, noise_bpsk)
+bandpass_out = noise_bpsk
  
 # 相干解调,乘以同频同相的相干载波
 # coherent_demod = bandpass_out * (coherent_carrier * 2)
-coherent_demod = bandpass_out * (coherent_carrier * 1)
+coherent_demod = bandpass_out * coherent_carrier * 1
+
+print(coherent_demod )
  
 # 通过低通滤波器
-lowpass_out = signal.filtfilt(b12, a12, coherent_demod)
-# lowpass_out = coherent_demod
+# lowpass_out = signal.filtfilt(b12, a12, coherent_demod)
+lowpass_out = coherent_demod
 fig2 = plt.figure(figsize=(16,8))
 bx1 = fig2.add_subplot(3, 1, 1)
 bx1.set_title('local down frequency and pass low band filter', fontproperties = zhfont1, fontsize=20)
@@ -102,6 +110,7 @@ print(detection_bpsk)
 for i in range(size):
     tempF = 0
     for j in range(100):
+        # print(lowpass_out[i * 100 + j])
         tempF = tempF + lowpass_out[i * 100 + j]
     print(tempF)
     if tempF > 0:
