@@ -7,7 +7,7 @@ import scipy.signal as signal
 import math
  
 #码元数
-size = 40
+size = 4
 sampling_t = 0.01
 t = np.arange(0, size, sampling_t)
 
@@ -20,41 +20,51 @@ for i in range(size):
 print(a)
 m = np.zeros(len(t), dtype=np.float32)
 for i in range(len(t)):
-   m[i] = a[math.floor(t[i])]
+   m[i] = a[math.floor(t[i])] *6/10 
    print(m[i])
 
-fig = plt.figure(figsize=(16,8))
-ax1 = fig.add_subplot(5, 1, 1)
- 
-# 解决set_title中文乱码
-zhfont1 = matplotlib.font_manager.FontProperties(fname = '/usr/share/fonts/truetype/arphic/ukai.ttc')
-ax1.set_title('genernate random binary signal', fontproperties = zhfont1, fontsize = 20)
-plt.axis([0, size, -0.5, 1.5])
-plt.plot(t, m, 'b')
+fig = plt.figure(figsize=(18,12))
+ax1 = fig.add_subplot(7, 1, 1)
  
 fc = 1
 fs = 20 * fc # 采样频率
-ts = np.arange(0, 40 / fs, 1 / (100*fs))
+ts = np.arange(0, 40 / fs, 1 / (10*fs))
+# 解决set_title中文乱码
+zhfont1 = matplotlib.font_manager.FontProperties(fname = '/usr/share/fonts/truetype/arphic/ukai.ttc')
+ax1.set_title('genernate random binary signal', fontproperties = zhfont1, fontsize = 20)
+plt.axis([0, 40/fs, -0.5, 1.5])
+plt.plot(ts, m, 'b')
+ 
 print(ts.shape)
 print(ts)
 d=np.dot(2 * pi * fc, ts)
 print(d)
-coherent_carrier = np.cos(d)
+coherent_carrier = 2*np.cos(d)
 # bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1) + pi / 4)
-bpsk = np.cos(d + pi * (m - 1))
-mmmm = (np.cos(2*d +  pi * (m - 1)) +  np.cos(pi*(m-1)))/2
+bpsk = 2*np.cos(d + pi * (m - 1))
+mmm = (np.cos(2*d +  pi * (m - 1)))/1
 
-axm = fig.add_subplot(5, 1, 2)
-plt.axis([0, size, -1.5, 1.5])
-plt.plot(t, mmmm, 'b')
+axm = fig.add_subplot(7, 1, 2)
+plt.axis([0, 40/fs, -1.5, 1.5])
+plt.plot(ts, mmm, 'b')
+
+cosline= np.cos(pi*(m-1))/1
+axn = fig.add_subplot(7, 1, 3)
+plt.axis([0, 40/fs, -1.5, 1.5])
+plt.plot(ts, cosline, 'b')
+
+mmmm = (np.cos(2*d +  pi * (m - 1)) +  np.cos(pi*(m-1)))/1
+axp = fig.add_subplot(7, 1, 4)
+plt.axis([0, 40/fs, -1.5, 1.5])
+plt.plot(ts, mmmm, 'b')
  
 # bpsk = np.cos(np.dot(2 * pi * fc, ts) + pi * (m - 1))
 # bpsk = np.cos(np.dot(2 * pi * fc, ts))
 # BPSK调制信号波形
-ax2 = fig.add_subplot(5, 1, 3)
+ax2 = fig.add_subplot(7, 1, 5)
 ax2.set_title('BPSK modulation signal', fontproperties=zhfont1, fontsize=20)
-plt.axis([0,size,-1.5, 1.5])
-plt.plot(t, bpsk, 'r')
+plt.axis([0,40/fs,-1.5, 1.5])
+plt.plot(ts, bpsk, 'r')
  
 # 定义加性高斯白噪声
 def awgn(y, snr):
@@ -68,15 +78,15 @@ noise_bpsk = awgn(bpsk, 5)
 noise_bpsk = bpsk
  
 # BPSK调制信号叠加噪声波形
-ax3 = fig.add_subplot(5, 1, 4)
+ax3 = fig.add_subplot(7, 1, 6)
 ax3.set_title('BPSK modulation add noise', fontproperties = zhfont1, fontsize = 20)
-plt.axis([0, size, -1.5, 1.5])
-plt.plot(t, noise_bpsk, 'r')
+plt.axis([0, 40/fs, -1.5, 1.5])
+plt.plot(ts, noise_bpsk, 'r')
 
-ax4 = fig.add_subplot(5, 1, 5)
+ax4 = fig.add_subplot(7, 1, 7)
 ax4.set_title('BPSK carrier', fontproperties = zhfont1, fontsize = 20)
-plt.axis([0,size,-1.5, 1.5])
-plt.plot(t, coherent_carrier, 'r')
+plt.axis([0,40/fs,-1.5, 1.5])
+plt.plot(ts, coherent_carrier, 'r')
  
 # 带通椭圆滤波器设计，通带为[2000，6000]
 [b11,a11] = signal.ellip(5, 0.5, 60, [2000 * 2 / 80000, 6000 * 2 / 80000], btype = 'bandpass', analog = False, output = 'ba')
@@ -100,8 +110,8 @@ lowpass_out = coherent_demod
 fig2 = plt.figure(figsize=(16,8))
 bx1 = fig2.add_subplot(3, 1, 1)
 bx1.set_title('local down frequency and pass low band filter', fontproperties = zhfont1, fontsize=20)
-plt.axis([0, size, -1.5, 1.5])
-plt.plot(t, lowpass_out, 'r')
+plt.axis([0, 40/fs, -1.5, 1.5])
+plt.plot(ts, lowpass_out, 'r')
  
 #抽样判决
 detection_bpsk = np.zeros(len(t), dtype=np.float32)
@@ -128,12 +138,12 @@ for i in range(size):
  
 bx2 = fig2.add_subplot(3, 1, 2)
 bx2.set_title('bpskxinhao chouyangpanjuehoude xinhaop', fontproperties = zhfont1, fontsize=20)
-plt.axis([0, size, -0.5, 1.5])
-plt.plot(t, detection_bpsk, 'r')
+plt.axis([0, 40/fs, -0.5, 1.5])
+plt.plot(ts, detection_bpsk, 'r')
 
 fft_size = 512 + 256 +128
 fft_size = 2048
-fft_size = 4000
+fft_size = 400
 xs = noise_bpsk[:fft_size]
 xs = coherent_demod[:fft_size]
 # xs = coherent_carrier[:fft_size]
