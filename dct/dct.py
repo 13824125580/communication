@@ -9,6 +9,7 @@ y1 = y.astype(np.float32)
 # print(y1.dtype)
 Y = cv2.dct(y1)
 print(Y.shape)
+print(Y)
 for i in range(0,1024):
      for j in range(0,1024):
          if i > 1024 or j > 1024:
