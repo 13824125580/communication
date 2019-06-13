@@ -23,7 +23,8 @@ for i in range(1, m):
      for j in range(n):
           C_temp[i, j] = np.cos(np.pi * i * (2*j+1) / (2 * N )
 ) * np.sqrt(2 / N )
- 
+
+# print(C_temp) 
 dst = np.dot(C_temp , img1)
 dst = np.dot(dst, np.transpose(C_temp))
  
